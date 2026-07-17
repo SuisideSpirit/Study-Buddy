@@ -10,3 +10,5 @@ DATA_DIR = BASE_DIR / "data"
 PDF_DIR = DATA_DIR / "pdfs"
 DATABASE_DIR = BASE_DIR / "database"
 
+DATABASE_PATH = "database/chroma"
+COLLECTION_NAME = "study_agent"
