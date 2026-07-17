@@ -1,0 +1,7 @@
+langchain
+python-dotenv
+pymupdf 
+chromadb 
+sentence-transformers 
+fastmcp 
+groq
