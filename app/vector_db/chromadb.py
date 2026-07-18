@@ -8,14 +8,14 @@ from app.embedding.embedder import EmbeddingModel
 class ChromaVectorDB:
 
     def __init__(
-        self,embedding_model ,
+        self,embedding_function ,
         collection_name: str = COLLECTION_NAME,
         persist_directory: str = DATABASE_PATH
     ):
 
         self.persist_directory = Path(persist_directory)
 
-        self.embedding_function = embedding_model
+        self.embedding_function = embedding_function
 
         self.vector_store = Chroma(
             collection_name=collection_name,

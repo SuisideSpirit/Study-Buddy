@@ -11,3 +11,5 @@ sentence-transformers
 chromadb
 langchain-chroma
 langchain_huggingface
+langchain-groq
+fastmcp
