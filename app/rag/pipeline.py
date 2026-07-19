@@ -1,4 +1,4 @@
-from app.retrieval.retriever import Retriever
+from app.retriever.retriever import Retriever
 from app.rag.llm import GroqLLM
 
 

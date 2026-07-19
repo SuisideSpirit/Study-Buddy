@@ -50,7 +50,7 @@ from app.utils.exception import StudyAgentException
 
 from app.embedding.embedder import EmbeddingModel
 from app.vector_db.chromadb import ChromaVectorDB
-from app.retrieval.retriever import Retriever
+from app.retriever.retriever import Retriever
 
 from app.rag.llm import GroqLLM
 from app.rag.pipeline import RAGPipeline
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
         # 6. Ask question
         result = rag.ask(
-            "What are the main functions of management?"
+            "What is the content of the pdf"
         )
 
         print("\nANSWER")

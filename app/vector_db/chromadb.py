@@ -1,19 +1,25 @@
 from pathlib import Path
 
 from langchain_chroma import Chroma
-from config import COLLECTION_NAME , DATABASE_PATH
-from app.embedding.embedder import EmbeddingModel
+from config import COLLECTION_NAME, DATABASE_PATH
 
 
 class ChromaVectorDB:
 
     def __init__(
-        self,embedding_function ,
+        self,
+        embedding_function,
         collection_name: str = COLLECTION_NAME,
         persist_directory: str = DATABASE_PATH
     ):
 
         self.persist_directory = Path(persist_directory)
+
+        # Make sure the directory exists and is writable
+        self.persist_directory.mkdir(
+            parents=True,
+            exist_ok=True
+        )
 
         self.embedding_function = embedding_function
 
@@ -24,29 +30,15 @@ class ChromaVectorDB:
         )
 
     def add_documents(self, documents):
-        """
-        Add LangChain documents to ChromaDB
-        """
         self.vector_store.add_documents(documents)
 
-    def similarity_search(
-        self,
-        query: str,
-        k: int = 5
-    ):
-        """
-        Retrieve top-k most similar chunks.
-        """
+    def similarity_search(self, query: str, k: int = 5):
         return self.vector_store.similarity_search(
             query=query,
             k=k
         )
 
-    def similarity_search_with_score(
-        self,
-        query: str,
-        k: int = 5
-    ):
+    def similarity_search_with_score(self, query: str, k: int = 5):
         return self.vector_store.similarity_search_with_score(
             query=query,
             k=k
