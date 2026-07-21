@@ -7,14 +7,18 @@ def _build_context(documents):
 
 def _build_prompt(
         question: str,
-        context: str
+        context: str,
+        history: str = ""
     ):
+        history_section = ""
+        if history:
+            history_section = f"\nConversation History:\n{history}\n--------------------\n"
 
         return f"""
 You are a helpful study assistant.
 
 Answer the user's question using the provided context.
-
+{history_section}
 Rules:
 1. Use the context as the primary source of information.
 2. If the answer cannot be found in the context, say that you do not have enough information.

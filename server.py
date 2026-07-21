@@ -5,6 +5,7 @@ from app.vector_db.chromadb import ChromaVectorDB
 from app.retriever.retriever import Retriever
 from app.rag.llm import GroqLLM
 from app.pipeline.pipeline import StudyBuddyPipeline
+from app.memory.memory import StudyBuddyMemory
 
 mcp = FastMCP("Study Buddy")
 
@@ -19,6 +20,8 @@ retriever = Retriever(vector_db=vector_db)
 
 llm = GroqLLM()
 
+memory = StudyBuddyMemory()
+
 # -------------------------
 # CENTRAL PIPELINE
 # -------------------------
@@ -26,7 +29,8 @@ llm = GroqLLM()
 study_pipeline = StudyBuddyPipeline(
     vector_db=vector_db,
     retriever=retriever,
-    llm=llm
+    llm=llm,
+    memory=memory
 )
 
 
@@ -35,11 +39,11 @@ study_pipeline = StudyBuddyPipeline(
 # -------------------------
 
 @mcp.tool()
-def ask_study_question(question: str) -> str:
+def ask_study_question(question: str, session_id: str = "default_session") -> str:
     """
-    Answer a study question using the uploaded study material.
+    Answer a study question using the uploaded study material and session history.
     """
-    result = study_pipeline.ask(question)
+    result = study_pipeline.ask(question, session_id=session_id)
 
     return result["answer"]
 
@@ -93,6 +97,23 @@ def get_sources(query: str, k: int = 5) -> str:
         f"Page: {source['page']}"
         for i, source in enumerate(sources, start=1)
     )
+
+
+@mcp.tool()
+def summarize_document(document_name: str, session_id: str = "default_session") -> str:
+    """
+    Summarize a specific document from the vector store.
+    """
+    return study_pipeline.summarize_document(document_name, session_id=session_id)
+
+
+@mcp.tool()
+def get_study_progress(session_id: str = "default_session") -> str:
+    """
+    Get the student's study progress and activity log for a session.
+    """
+    return study_pipeline.get_study_progress(session_id=session_id)
+
 
 if __name__ == "__main__":
     mcp.run()

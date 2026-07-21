@@ -30,4 +30,4 @@ study_pipeline = StudyBuddyPipeline(
     memory= memory
 )
 
-print(study_pipeline.ask("What is management"))
+print(study_pipeline.get_study_progress())

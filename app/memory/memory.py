@@ -101,3 +101,39 @@ class StudyBuddyMemory:
         messages.reverse()
 
         return messages
+
+    def add_progress(
+        self,
+        session_id: str,
+        action_type: str,
+        target_name: str = None,
+        details: str = None
+    ):
+        with self.get_connection() as connection:
+            connection.execute(
+                """
+                INSERT INTO study_progress
+                (session_id, action_type, target_name, details)
+                VALUES (?, ?, ?, ?)
+                """,
+                (
+                    session_id,
+                    action_type,
+                    target_name,
+                    details
+                )
+            )
+            connection.commit()
+
+    def get_progress(self, session_id: str):
+        with self.get_connection() as connection:
+            cursor = connection.execute(
+                """
+                SELECT action_type, target_name, details, timestamp
+                FROM study_progress
+                WHERE session_id = ?
+                ORDER BY id DESC
+                """,
+                (session_id,)
+            )
+            return cursor.fetchall()

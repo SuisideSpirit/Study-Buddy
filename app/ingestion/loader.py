@@ -8,17 +8,17 @@ import sys
 
 class DocumentLoader:
 
-    def __init__(self, data_path: str ):
+    def __init__(self, data_path: str = None):
         self.data_path = (
             Path(data_path)
             if data_path
             else None
         )
-        if self.data_path is None:
-            raise ValueError("PDF path was not provided")
 
 
     def load_pdf(self):
+        if self.data_path is None:
+            raise ValueError("PDF path was not provided")
 
         pdf_path = Path(self.data_path)
 
@@ -28,7 +28,9 @@ class DocumentLoader:
 
     def load_file_path(self):
         logger.info(f"started making documents chunks")
-        try :
+        try:
+            if self.data_path is None:
+                raise ValueError("PDF directory path was not provided")
             documents = []
 
             pdf_files = self.data_path.glob("*.pdf")
@@ -38,8 +40,8 @@ class DocumentLoader:
                 documents.extend(loader.load())
 
             return documents
-        except Exception as e :
-            raise StudyAgentException(e,sys)
+        except Exception as e:
+            raise StudyAgentException(e, sys)
         
 
     def load_text(self,text: str,source: str = "pasted_text"):

@@ -54,3 +54,15 @@ class ChromaVectorDB:
 
     def delete_collection(self):
         self.vector_store.delete_collection()
+
+    def get_chunks_by_source(self, source_name: str):
+        res = self.vector_store.get()
+        documents = res.get("documents", [])
+        metadatas = res.get("metadatas", [])
+
+        matching_docs = []
+        for doc, meta in zip(documents, metadatas):
+            meta_source = meta.get("source", "")
+            if source_name in meta_source or meta_source.endswith(source_name):
+                matching_docs.append(doc)
+        return matching_docs
