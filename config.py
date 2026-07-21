@@ -13,3 +13,4 @@ DATABASE_DIR = BASE_DIR / "database"
 DATABASE_PATH = DATABASE_DIR / "chroma"
 
 COLLECTION_NAME = "study_agent"
+SQLITE_DB_PATH = DATABASE_DIR /"SQL"/"study_buddy.db"

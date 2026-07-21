@@ -1,4 +1,5 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from app.utils.logger import logger
 
 
 class DocumentChunker:
@@ -23,4 +24,5 @@ class DocumentChunker:
         )
 
     def make_chunks(self, documents):
+        logger.info(f"started making documents chunks of documnets")
         return self.text_splitter.split_documents(documents)
